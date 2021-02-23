@@ -1,9 +1,8 @@
 import './index.css';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
-import WishAPI from '#/api/instagram';
-
+import InstagramAPI from '#/api/instagram';
 
 function WishCard({ id, imageTitle, title, content, image, date, cardColor }) {
     return (
@@ -23,7 +22,7 @@ function WishCard({ id, imageTitle, title, content, image, date, cardColor }) {
     );
 }
 
-function WishList() {
+function Activity() {
     const data = [
         { id: 1, title: "Title here", content: "Content information", background: "#000", cardColor: "#fff" },
         { id: 2, title: "Title here", content: "Content information", background: "#fff", cardColor: "#000" },
@@ -48,5 +47,4 @@ function WishList() {
     )
 }
 
-export { WishCard };
-export default WishList;
+export default Activity;

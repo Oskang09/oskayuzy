@@ -66,6 +66,7 @@ async function main() {
             if (caption.includes("#fcse") || caption.includes("#oskayuzy")) {
                 numberOfPost--;
                 return {
+                    url: `https://instagram.com/p/${post.shortcode}`,
                     timestamp: post.taken_at_timestamp,
                     image: post.display_url,
                     caption: caption,

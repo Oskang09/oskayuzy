@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Uploader from 'rc-upload';
 
 import Heart from '#/components/heart';
 import LoveEffect from '#/components/love-effect';
@@ -9,8 +8,7 @@ import Psyduck from './components/psyduck';
 import Slideshow from './components/slideshow';
 import Lion from './components/lion';
 import Carousel from './components/carousel';
-import WishList, { WishCard } from './components/wish-list';
-import ColorPicker from './components/color-picker';
+import Activity from './components/activity';
 
 const RootContainer = {
     position: 'relative',
@@ -170,103 +168,7 @@ function Application() {
                 </div>
             </div>
 
-            <WishList />
-
-            <div style={{ display: 'flex', margin: '20px 0px' }}>
-                <div style={{ backgroundColor: background, margin: '0px 50px', padding: "0px 50px" }}>
-                    <WishCard
-                        id={"submit"}
-                        imageTitle={imageTitle}
-                        title={title}
-                        content={content}
-                        cardColor={cardColor}
-                        image={file}
-                        date={new Date()}
-                    />
-                </div>
-                <div >
-                    <form className="pure-form pure-form-aligned">
-                        <fieldset>
-                            <legend>Submit your wish now!</legend>
-
-                            <div className="pure-control-group">
-                                <label htmlFor="title">Title</label>
-                                <input
-                                    type="text"
-                                    placeholder="Title ..."
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                            </div>
-
-                            <div className="pure-control-group">
-                                <label htmlFor="content">Content</label>
-                                <textarea
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value.replace(/[\r\n\v]+/g, ""))}
-                                    placeholder="Wish Content ..."
-                                />
-                            </div>
-
-                            <div className="pure-control-group">
-                                <label htmlFor="background">Background</label>
-                                <ColorPicker
-                                    value={background}
-                                    onChange={setBackground}
-                                />
-                            </div>
-
-                            <div className="pure-control-group">
-                                <label htmlFor="content">Card</label>
-                                <ColorPicker
-                                    value={cardColor}
-                                    onChange={setCardColor}
-                                />
-                            </div>
-
-                            <div className="pure-control-group">
-                                <label htmlFor="content">Image</label>
-                                <Uploader
-                                    accept="image/png, image/jpg, image/jpeg"
-                                    beforeUpload={async (file) => {
-                                        if (["image/png", "image/jpg", "image/jpeg"].indexOf(file.type) === -1) {
-                                            return false;
-                                        }
-
-                                        if (file.size / 1024 / 1024 >= 1) {
-                                            return false;
-                                        }
-                                        setFile(await toBase64(file));
-                                        return false;
-                                    }}
-                                >
-                                    <div className="pure-button pure-button-primary">
-                                        Upload
-                                    </div>
-                                </Uploader>
-                            </div>
-
-                            <div className="pure-control-group">
-                                <label htmlFor="content">Image Title</label>
-                                <input
-                                    type="text"
-                                    value={imageTitle}
-                                    placeholder="Image Title ..."
-                                    onChange={(e) => setImageTitle(e.target.value)}
-                                />
-                            </div>
-
-                            <div className="pure-controls">
-                                <div className="pure-button pure-button-primary">
-                                    Submit
-                                </div>
-                            </div>
-
-                        </fieldset>
-                    </form>
-
-                </div>
-            </div>
+            <Activity />
         </div >
     );
 }
