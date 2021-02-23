@@ -1,0 +1,8 @@
+name: "oskayuzy"
+description: "Update instagram data tog ist"
+branding:
+  icon: "clipboard"
+  color: "blue"
+runs:
+  using: "node12"
+  main: "action.js"
