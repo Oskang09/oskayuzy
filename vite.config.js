@@ -6,7 +6,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
  */
 export default {
     jsx: 'react',
-    base: "/",
+    base: "./",
     plugins: [reactRefresh()],
     server: {
         open: true,
@@ -18,4 +18,7 @@ export default {
             '#': path.resolve(__dirname, "./src"),
         },
     },
+    build: {
+        outDir: 'docs',
+    }
 }
