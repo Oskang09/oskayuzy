@@ -19,7 +19,6 @@ export default async function request(method, path, data) {
             response = await client[method.toLowerCase()](path);
         }
     } catch (error) {
-        console.log(error);
         clientError = !error.isAxiosError && !error.response;
         response = error.response
     }

@@ -85,23 +85,9 @@ const LoveText = {
     color: 'black',
 };
 
-const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-});
-
 function Application() {
-    const [content, setContent] = useState('');
-    const [title, setTitle] = useState('');
-    const [file, setFile] = useState();
-    const [cardColor, setCardColor] = useState('#000');
-    const [background, setBackground] = useState('#FFF');
-    const [imageTitle, setImageTitle] = useState('');
     return (
         <div style={RootContainer}>
-
             <div style={HeaderBar}>
                 <h1 style={{ fontSize: 24 }}>&#x1f466;</h1>
                 <h1 style={{ fontSize: 24 }}>OskaYuzy</h1>

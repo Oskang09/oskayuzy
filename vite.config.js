@@ -7,6 +7,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 export default {
     jsx: 'react',
     base: "./",
+    mode: 'development',
     plugins: [reactRefresh()],
     server: {
         open: true,

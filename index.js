@@ -28,7 +28,6 @@ async function request(method, path, data) {
     }
 
     if (clientError || response.status >= 400) {
-        console.log(response.data);
         throw new Error(response.data);
     }
     return response.data;
