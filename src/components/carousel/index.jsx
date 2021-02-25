@@ -1,3 +1,5 @@
+import './index.css';
+
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import { Carousel } from "react-responsive-carousel";
@@ -21,7 +23,7 @@ function OCarousel(props) {
             dynamicHeight={false}
         >
             {props.images.map((img, index) => (
-                <div key={index} style={{ height: '100vh' }}>
+                <div id="carousel-image" key={index}>
                     <img style={{ height: '100%' }} src={img} />
                     <p className="legend">{props.legends[index]}</p>
                 </div>

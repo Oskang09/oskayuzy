@@ -1,0 +1,54 @@
+#header-bar {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    background-color: #FBBBC1;
+    padding: 0px 30px 0px 30px;
+    height: 60px;
+}
+
+#header-bar > h1 {
+    font-size: 24px;
+}
+
+#love-container {
+    align-items: center;
+    padding: 20px;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: row;
+}
+
+#psyduck-container {
+    display: flex;
+    height: 500px;    
+    background-color: #A4CEFF;
+}
+
+#lion-container {
+    display: flex;
+    height: 500px;    
+    background-color: #DECC9C;
+}
+
+@media only screen and (max-width: 1023px) {
+
+    #love-container {
+        padding: 20px;
+        height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        min-height: 700px;
+    }
+
+    #psyduck-container {
+        flex-direction: column;
+        height: 1000px;
+    }
+
+    #lion-container {
+        flex-direction: column-reverse;
+        height: 1000px;
+    }
+
+}

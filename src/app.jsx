@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import './app.css';
+
+import React from 'react';
 
 import Heart from '#/components/heart';
 import LoveEffect from '#/components/love-effect';
@@ -10,19 +12,12 @@ import Lion from './components/lion';
 import Carousel from './components/carousel';
 import Activity from './components/activity';
 
+import { oska_profile, yuzy_profile } from '#/assets/local.json';
+
 const RootContainer = {
     position: 'relative',
     margin: 0,
     border: 'none',
-};
-
-const HeaderBar = {
-    display: 'flex',
-    textAlign: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: "#FBBBC1",
-    padding: "0px 30px 0px 50px",
-    height: "60px"
 };
 
 const BackgroundBanner = {
@@ -34,23 +29,9 @@ const BackgroundBanner = {
     width: '100%',
 };
 
-const BackgroundContainer = {
-    alignItems: 'center',
-    padding: 20,
-    height: 'calc(100vh - 60px)',
-    display: 'flex',
-    flexDirection: 'row',
-};
-
 const TogetherContainer = {
     textAlign: 'center',
     position: 'relative',
-};
-
-const PsyduckContainer = {
-    display: 'flex',
-    height: 500,
-    backgroundColor: '#a4ceff',
 };
 
 const PsyduckDescription = {
@@ -59,12 +40,6 @@ const PsyduckDescription = {
     display: 'flex',
     flex: 1,
     flexDirection: 'column'
-}
-
-const LionContainer = {
-    display: 'flex',
-    height: 500,
-    backgroundColor: '#DECC9C',
 }
 
 const LionDescription = {
@@ -88,18 +63,18 @@ const LoveText = {
 function Application() {
     return (
         <div style={RootContainer}>
-            <div style={HeaderBar}>
-                <h1 style={{ fontSize: 24 }}>&#x1f466;</h1>
-                <h1 style={{ fontSize: 24 }}>OskaYuzy</h1>
-                <h1 style={{ fontSize: 24 }}>&#x1f467;</h1>
+            <div id="header-bar">
+                <h1>&#x1f466;</h1>
+                <h1>OskaYuzy</h1>
+                <h1>&#x1f467;</h1>
             </div>
 
             <div style={TogetherContainer}>
                 <LoveEffect />
                 <img style={BackgroundBanner} src={OskaBackground} />
-                <div style={BackgroundContainer}>
+                <div id="love-container">
                     <div style={{ flex: 1 }}>
-                        <img style={Avatar} src={YuzyBackground} />
+                        <img style={Avatar} src={oska_profile} />
                     </div>
                     <div style={{ paddingTop: 15, paddingBottom: 15, flex: 2 }}>
                         <div style={LoveText} className="column">
@@ -111,7 +86,7 @@ function Application() {
                         </div>
                     </div>
                     <div style={{ flex: 1 }}>
-                        <img style={Avatar} src={YuzyBackground} />
+                        <img style={Avatar} src={yuzy_profile} />
                     </div>
                 </div>
             </div>
@@ -124,9 +99,9 @@ function Application() {
                 ]}
             />
 
-            <div style={PsyduckContainer}>
+            <div id="psyduck-container">
                 <div style={PsyduckDescription}>
-                    <h1>HeaderHeaderHeaderHeader</h1>
+                    <h1>HeaderHeader</h1>
                     <p>some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description</p>
                     <Slideshow
                         interval={3000}
@@ -139,12 +114,12 @@ function Application() {
                 </div>
             </div>
 
-            <div style={LionContainer}>
+            <div id="lion-container">
                 <div style={{ flex: 1 }}>
                     <Lion className="column" />
                 </div>
                 <div style={LionDescription}>
-                    <h1>HeaderHeaderHeaderHeader</h1>
+                    <h1>HeaderHeader</h1>
                     <p>some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description</p>
                     <Slideshow
                         interval={3000}
@@ -154,7 +129,9 @@ function Application() {
                 </div>
             </div>
 
-            <Activity />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', paddingTop: 100, paddingBottom: 160 }}>
+                <Activity />
+            </div>
         </div >
     );
 }

@@ -1,55 +1,51 @@
 import './index.css';
 
-import React, { useState } from 'react';
-import ScrollMenu from 'react-horizontal-scrolling-menu';
+import React, { useEffect, useReducer } from 'react';
+
+import { posts } from '#/assets/local.json';
+import Slide from './slide';
 // import InstagramAPI from '#/api/instagram';
 
-function WishCard({ id }) {
-    return (
-        <article className="card" key={id} style={{ boxShadow: `10px 5px 40px 20px #000` }}>
-            <header
-                className="card-header"
-                style={{ backgroundImage: `url('')` }}
-            >
-                <h4 className="card-header--title">AS</h4>
-            </header>
-            <div className="card-body">
-                <p className="date">{new Date().toLocaleString("en-US", { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                <h2>ASD</h2>
-                <p className="body-content">ASD</p>
-            </div>
-        </article>
-    );
-}
+const initialState = {
+    slideIndex: 0
+};
+
+const slidesReducer = (state, event) => {
+    if (event.type === "NEXT") {
+        return {
+            ...state,
+            slideIndex: (state.slideIndex + 1) % posts.length
+        };
+    }
+    if (event.type === "PREV") {
+        return {
+            ...state,
+            slideIndex:
+                state.slideIndex === 0 ? posts.length - 1 : state.slideIndex - 1
+        };
+    }
+};
+
 
 function Activity() {
-    let Component = ScrollMenu;
-    if (import.meta.env.PROD) {
-        Component = ScrollMenu.default;
-    }
+    const [state, dispatch] = useReducer(slidesReducer, initialState);
 
-    const data = [
-        { id: 1, title: "Title here", content: "Content information", background: "#000", cardColor: "#fff" },
-        { id: 2, title: "Title here", content: "Content information", background: "#fff", cardColor: "#000" },
-    ];
-    const [selected, setSelected] = useState("1");
+    useEffect(() => {
+        const interval = setInterval(() => dispatch({ type: 'PREV' }), 3000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <div style={{ backgroundColor: data.find(x => x.id == selected).background }}>
-            <Component
-                scrollToSelected={true}
-                wrapperStyle={{ margin: 10 }}
-                itemStyle={{ marginRight: 150 }}
-                data={data.map(WishCard)}
-                selected={selected}
-                onSelect={setSelected}
-                dragging={true}
-                wheel={true}
-                onLastItemVisible={() => {
-                    // console.log("visible");
-                }}
-            />
+        <div className="slides">
+            <button onClick={() => dispatch({ type: "PREV" })}>‹</button>
+
+            {[...posts, ...posts, ...posts].map((slide, i) => {
+                let offset = posts.length + (state.slideIndex - i);
+                return <Slide slide={slide} offset={offset} key={i} />;
+            })}
+            <button onClick={() => dispatch({ type: "NEXT" })}>›</button>
         </div>
-    )
+    );
 }
 
 export default Activity;
