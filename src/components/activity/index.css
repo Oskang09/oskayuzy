@@ -62,7 +62,7 @@
   text-shadow: 0 0.1rem 1rem #000;
   opacity: 0;
   position: absolute;
-  top: -50px;
+  top: -30px;
   font-size: 25px;
   white-space: pre-line;
   text-align: center;
@@ -76,6 +76,7 @@
   position: absolute;
   top: calc(40vh + 10px);
   white-space: pre-line;
+  font-size: 15px;
 }
 
 .slideBackground {
@@ -117,7 +118,6 @@
 @media only screen and (max-width: 1023px) {
   .slideContentTop {
     font-size: 14px;
-    top: -30px;
   }
 
   .slideContentBottom {
