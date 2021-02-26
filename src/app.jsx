@@ -4,15 +4,16 @@ import React, { useEffect, useState } from 'react';
 
 import Heart from '#/components/heart';
 import LoveEffect from '#/components/love-effect';
-import OskaBackground from '#/assets/oska-bg.jpg';
-import YuzyBackground from '#/assets/yuzy-bg.jpg';
-import Psyduck from './components/psyduck';
-import Slideshow from './components/slideshow';
-import Lion from './components/lion';
-import Carousel from './components/carousel';
-import Activity from './components/activity';
+import Psyduck from '#/components/psyduck';
+import Slideshow from '#/components/slideshow';
+import Lion from '#/components/lion';
+import Carousel from '#/components/carousel';
+import Activity from '#/components/activity';
+import { renderLoadable } from '#/components/loader';
 
-import { oska_profile, yuzy_profile, posts } from '#/assets/local.json';
+import OskaBackground from '#/assets/images/oska-bg.jpg';
+import YuzyBackground from '#/assets/images/yuzy-bg.jpg';
+
 import InstagramAPI from '#/api/instagram';
 
 const RootContainer = {
@@ -63,14 +64,14 @@ const LoveText = {
 
 function Application() {
 
-    const [oskaProfile, setOskaProfile] = useState(oska_profile);
-    const [yuzyProfile, setYuzyProfile] = useState(yuzy_profile);
-    const [data, setData] = useState(posts);
+    const [boyProfile, setBoyProfile] = useState(null);
+    const [girlProfile, setGirlProfile] = useState(null);
+    const [data, setData] = useState([]);
 
     const loadFromGist = async function load() {
-        const { oskaProfile, yuzyProfile, posts } = await InstagramAPI.getInstagramInfo();
-        setOskaProfile(oskaProfile);
-        setYuzyProfile(yuzyProfile);
+        const { boy_profile, girl_profile, posts } = await InstagramAPI.getInstagramInfo();
+        setBoyProfile(boy_profile);
+        setGirlProfile(girl_profile);
         setData(posts);
     };
 
@@ -89,7 +90,7 @@ function Application() {
                 <img style={BackgroundBanner} src={OskaBackground} />
                 <div id="love-container">
                     <div style={{ flex: 1 }}>
-                        <img style={Avatar} src={oskaProfile} />
+                        {renderLoadable(!boyProfile, <img style={Avatar} src={boyProfile} />)}
                     </div>
                     <div style={{ paddingTop: 15, paddingBottom: 15, flex: 2 }}>
                         <div style={LoveText} className="column">
@@ -101,7 +102,7 @@ function Application() {
                         </div>
                     </div>
                     <div style={{ flex: 1 }}>
-                        <img style={Avatar} src={yuzyProfile} />
+                        {renderLoadable(!girlProfile, <img style={Avatar} src={girlProfile} />)}
                     </div>
                 </div>
             </div>
@@ -145,7 +146,12 @@ function Application() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', paddingTop: 100, paddingBottom: 160 }}>
-                <Activity posts={data} />
+                {
+                    renderLoadable(
+                        !data || data.length === 0,
+                        <Activity posts={data} />,
+                    )
+                }
             </div>
         </div >
     );

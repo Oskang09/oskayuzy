@@ -4,7 +4,8 @@
   "scripts": {
     "start": "node ./node_modules/esbuild/install.js && vite",
     "build": "vite build && ncc build index.js --out dist --minify",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "script": "node index.js"
   },
   "dependencies": {
     "apisauce": "^2.0.1",

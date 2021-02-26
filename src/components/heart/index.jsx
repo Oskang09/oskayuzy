@@ -1,7 +1,7 @@
 import './index.css';
 
 import React from 'react';
-import Love from '#/assets/love.png';
+import Love from '#/assets/images/love.png';
 
 const Container = {
     position: 'relative',

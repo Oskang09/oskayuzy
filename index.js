@@ -1,8 +1,8 @@
 const { dig } = require('digdata');
 const { create } = require('apisauce');
 const qs = require('query-string');
-
-const { GIST_ID, GH_TOKEN } = process.env;
+const { GH_TOKEN } = process.env;
+const { boy, girl, gallery, gist_id } = require('./src/assets/setting.json');
 const client = create({
     headers: {
         'Authorization': `token ${GH_TOKEN}`,
@@ -35,21 +35,21 @@ async function request(method, path, data) {
 }
 
 async function main() {
-    const oskaResponse = await request("GET", "https://www.instagram.com/web/search/topsearch/?context=user&query=iregalia_0714&rank_token=0.7810395624&include_reel=true");
-    const oskaProfile = dig(oskaResponse, 'users.*.user.pk=2217696854.profile_pic_url');
+    const boyResponse = await request("GET", `https://www.instagram.com/web/search/topsearch/?context=user&query=${boy.instagram_name}&rank_token=0.7810395624&include_reel=true`);
+    const boyProfile = dig(boyResponse, `users.*.user.pk=${boy.instagram_id}.profile_pic_url`);
 
-    const yuzyResponse = await request("GET", "https://www.instagram.com/web/search/topsearch/?context=user&query=yuzy_lam&rank_token=0.7810395624&include_reel=true");
-    const yuzyProfile = dig(yuzyResponse, 'users.*.user.pk=1213364867.profile_pic_url');
+    const girlResponse = await request("GET", `https://www.instagram.com/web/search/topsearch/?context=user&query=${girl.instagram_name}&rank_token=0.7810395624&include_reel=true`);
+    const girlProfile = dig(girlResponse, `users.*.user.pk=${girl.instagram_id}.profile_pic_url`);
 
     let nextCursor = undefined;
     let hasNext = false;
-    let numberOfPost = 13;
+    let numberOfPost = gallery.post_count;
     const posts = [];
     do {
         const data = await request("GET", "https://www.instagram.com/graphql/query", {
             first: 12,
             query_id: 17888483320059182,
-            id: 2217696854,
+            id: gallery.instagram_id,
             after: nextCursor,
         });
 
@@ -63,7 +63,8 @@ async function main() {
             }
 
             const caption = dig(post, "edge_media_to_caption.edges.0.node.text");
-            if (caption.includes("#fcse") || caption.includes("#oskayuzy")) {
+            const isCaptionHit = gallery.keywords.some(x => caption.includes(x));
+            if (isCaptionHit) {
                 numberOfPost--;
                 return {
                     url: `https://instagram.com/p/${post.shortcode}`,
@@ -77,13 +78,13 @@ async function main() {
     } while (hasNext && numberOfPost > 0);
 
     await request(
-        "PATCH", `https://api.github.com/gists/${GIST_ID}`,
+        "PATCH", `https://api.github.com/gists/${gist_id}`,
         {
             files: {
-                oskayuzy: {
+                ["oskayuzy.json"]: {
                     content: JSON.stringify({
-                        oska_profile: oskaProfile,
-                        yuzy_profile: yuzyProfile,
+                        boy_profile: boyProfile,
+                        girl_profile: girlProfile,
                         posts: posts.filter(x => x),
                     })
                 }
