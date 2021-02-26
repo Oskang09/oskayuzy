@@ -11,6 +11,54 @@
     font-size: 24px;
 }
 
+@keyframes headerboy {
+    0% {
+        left: 0;
+    }
+    25% {
+        left: calc(11.25vw - 50px);
+    }
+    50% {
+        left: calc(22.5vw - 50px);
+    }
+    75% {
+        left: calc(33.75vw - 50px);
+    }
+    100% {
+        left: calc(45vw - 50px);
+    }
+}
+
+#header-boy {
+  animation-name: headerboy;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes headergirl {
+    0% {
+        right: 0;
+    }
+    25% {
+        right: calc(11.25vw - 50px);
+    }
+    50% {
+        right: calc(22.5vw - 50px);
+    }
+    75% {
+        right: calc(33.75vw - 50px);
+    }
+    100% {
+        right: calc(45vw - 50px);
+    }
+}
+
+#header-girl {
+    animation-name: headergirl;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
 #love-container {
     align-items: center;
     padding: 20px;
@@ -51,4 +99,81 @@
         height: 1000px;
     }
 
+    #header-boy {
+        animation-duration: 3s;
+    }
+    #header-girl {
+        animation-duration: 3s;
+    }
+
+
+    @keyframes headerboy {
+        0% {
+            left: 0;
+        }
+        25% {
+            left: calc(8.75vw);
+        }
+        50% {
+            left: calc(17.5vw);
+        }
+        75% {
+            left: calc(26.25vw);
+        }
+        100% {
+            left: calc(35vw);
+        }
+    }
+    
+    @keyframes headergirl {
+        0% {
+            right: 0;
+        }
+        25% {
+            right: calc(8.75vw );
+        }
+        50% {
+            right: calc(17.5vw);
+        }
+        75% {
+            right: calc(26.25vw);
+        }
+        100% {
+            right: calc(35vw);
+        }
+    }
+}
+
+
+@media only screen and (max-width: 767px) {
+    #header-boy {
+        animation-duration: 2s;
+    }
+    #header-girl {
+        animation-duration: 2s;
+    }
+
+    @keyframes headerboy {
+        0% {
+            left: 0;
+        }
+        50% {
+            left: calc(7.5vw);
+        }
+        100% {
+            left: calc(15vw);
+        }
+    }
+    
+    @keyframes headergirl {
+        0% {
+            right: 0;
+        }
+        50% {
+            right: calc(7.5vw);
+        }
+        100% {
+            right: calc(15vw);
+        }
+    }
 }

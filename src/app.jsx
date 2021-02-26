@@ -80,9 +80,9 @@ function Application() {
     return (
         <div style={RootContainer}>
             <div id="header-bar">
-                <h1>&#x1f466;</h1>
+                <h1 id="header-boy">&#x1f466;</h1>
                 <h1>OskaYuzy</h1>
-                <h1>&#x1f467;</h1>
+                <h1 id="header-girl">&#x1f467;</h1>
             </div>
 
             <div style={TogetherContainer}>

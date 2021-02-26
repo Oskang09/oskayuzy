@@ -10,6 +10,18 @@ With github actions, every night will run a script to get data from instagram, a
 
 For github actions script have to build with `@vercel/ncc` before push, frontend also have to build before push. Since my github pages is set to `master` branch so it take from `docs/` folder in `master` branch. In `public/` folder having `CNAME` it's for custom domain setting ifn't the original setting will be overrided.
 
+# Make your own
+
+1. Update setting in `assets/setting.json`.
+2. Run `yarn build` to build with new setting.
+3. Rename title in `index.html` with your preferred title name.
+4. Update images with yours in `assets/images/` folder.
+5. Update repository name in `.github/workflows/schedule.yml`. 
+6. Add `GH_TOKEN` with your github token for updating `gist`.
+7. Push to repository.
+8. Trigger the actions to fetch data from instagram.
+9. Here you go.
+
 # Reference
 
 | Component        | Source                                                                |
@@ -22,7 +34,3 @@ For github actions script have to build with `@vercel/ncc` before push, frontend
 | Slideshow        | https://css-tricks.com/snippets/jquery/simple-auto-playing-slideshow/ |
 | Heartbeat        | https://codepen.io/fivera/pen/rzepn                                   |
 | Loader           | https://loading.io/css/                                               |
-
-# Make your own
-
-If you want to make your own u can clone this repository, and go to `assets/setting/setting.json` update your information like instagram_id, instagram_name. Once you updated, you can run `yarn script` to push data to your `gist`.
