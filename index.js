@@ -28,17 +28,18 @@ async function request(method, path, data) {
     }
 
     if (clientError || response.status >= 400) {
+        console.log(clientError, response.data)
         throw new Error(response.data);
     }
     return response.data;
 }
 
 async function main() {
-    const oskaResponse = await request("GET", "https://www.instagram.com/iregalia_0714/?__a=1");
-    const oskaProfile = dig(oskaResponse, 'graphql.user.profile_pic_url_hd');
+    const oskaResponse = await request("GET", "https://www.instagram.com/web/search/topsearch/?context=user&query=iregalia_0714&rank_token=0.7810395624&include_reel=true");
+    const oskaProfile = dig(oskaResponse, 'users.*.user.pk=2217696854.profile_pic_url');
 
-    const yuzyResponse = await request("GET", "https://www.instagram.com/yuzy_lam/?__a=1");
-    const yuzyProfile = dig(yuzyResponse, 'graphql.user.profile_pic_url_hd');
+    const yuzyResponse = await request("GET", "https://www.instagram.com/web/search/topsearch/?context=user&query=yuzy_lam&rank_token=0.7810395624&include_reel=true");
+    const yuzyProfile = dig(yuzyResponse, 'users.*.user.pk=1213364867.profile_pic_url');
 
     let nextCursor = undefined;
     let hasNext = false;

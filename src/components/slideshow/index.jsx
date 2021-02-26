@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 
-
 function Slideshow(props) {
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import './app.css';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Heart from '#/components/heart';
 import LoveEffect from '#/components/love-effect';
@@ -12,7 +12,8 @@ import Lion from './components/lion';
 import Carousel from './components/carousel';
 import Activity from './components/activity';
 
-import { oska_profile, yuzy_profile } from '#/assets/local.json';
+import { oska_profile, yuzy_profile, posts } from '#/assets/local.json';
+import InstagramAPI from '#/api/instagram';
 
 const RootContainer = {
     position: 'relative',
@@ -61,6 +62,20 @@ const LoveText = {
 };
 
 function Application() {
+
+    const [oskaProfile, setOskaProfile] = useState(oska_profile);
+    const [yuzyProfile, setYuzyProfile] = useState(yuzy_profile);
+    const [data, setData] = useState(posts);
+
+    const loadFromGist = async function load() {
+        const { oskaProfile, yuzyProfile, posts } = await InstagramAPI.getInstagramInfo();
+        setOskaProfile(oskaProfile);
+        setYuzyProfile(yuzyProfile);
+        setData(posts);
+    };
+
+    useEffect(loadFromGist, []);
+
     return (
         <div style={RootContainer}>
             <div id="header-bar">
@@ -74,7 +89,7 @@ function Application() {
                 <img style={BackgroundBanner} src={OskaBackground} />
                 <div id="love-container">
                     <div style={{ flex: 1 }}>
-                        <img style={Avatar} src={oska_profile} />
+                        <img style={Avatar} src={oskaProfile} />
                     </div>
                     <div style={{ paddingTop: 15, paddingBottom: 15, flex: 2 }}>
                         <div style={LoveText} className="column">
@@ -86,7 +101,7 @@ function Application() {
                         </div>
                     </div>
                     <div style={{ flex: 1 }}>
-                        <img style={Avatar} src={yuzy_profile} />
+                        <img style={Avatar} src={yuzyProfile} />
                     </div>
                 </div>
             </div>
@@ -130,7 +145,7 @@ function Application() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', paddingTop: 100, paddingBottom: 160 }}>
-                <Activity />
+                <Activity posts={data} />
             </div>
         </div >
     );

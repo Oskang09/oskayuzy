@@ -1,33 +1,30 @@
 import './index.css';
 
 import React, { useEffect, useReducer } from 'react';
+import PropTypes from 'prop-types';
 
-import { posts } from '#/assets/local.json';
 import Slide from './slide';
-// import InstagramAPI from '#/api/instagram';
 
-const initialState = {
-    slideIndex: 0
-};
+function Activity({ posts }) {
+    const initialState = {
+        slideIndex: 0
+    };
 
-const slidesReducer = (state, event) => {
-    if (event.type === "NEXT") {
-        return {
-            ...state,
-            slideIndex: (state.slideIndex + 1) % posts.length
-        };
-    }
-    if (event.type === "PREV") {
-        return {
-            ...state,
-            slideIndex:
-                state.slideIndex === 0 ? posts.length - 1 : state.slideIndex - 1
-        };
-    }
-};
-
-
-function Activity() {
+    const slidesReducer = (state, event) => {
+        if (event.type === "NEXT") {
+            return {
+                ...state,
+                slideIndex: (state.slideIndex + 1) % posts.length
+            };
+        }
+        if (event.type === "PREV") {
+            return {
+                ...state,
+                slideIndex:
+                    state.slideIndex === 0 ? posts.length - 1 : state.slideIndex - 1
+            };
+        }
+    };
     const [state, dispatch] = useReducer(slidesReducer, initialState);
 
     useEffect(() => {
@@ -46,6 +43,10 @@ function Activity() {
             <button onClick={() => dispatch({ type: "NEXT" })}>›</button>
         </div>
     );
+}
+
+Activity.propTypes = {
+    posts: PropTypes.array,
 }
 
 export default Activity;
