@@ -1,3 +1,5 @@
+![desktop](./desktop-view.jpg)
+
 # oskayuzy
 
 personal couple site just to record down the thing between us
@@ -34,3 +36,10 @@ For github actions script have to build with `@vercel/ncc` before push, frontend
 | Slideshow        | https://css-tricks.com/snippets/jquery/simple-auto-playing-slideshow/ |
 | Heartbeat        | https://codepen.io/fivera/pen/rzepn                                   |
 | Loader           | https://loading.io/css/                                               |
+
+# View
+
+| Platform | View                           |
+| -------- | ------------------------------ |
+| Desktop  | ![desktop](./desktop-view.jpg) |
+| Mobile   | ![mobile](./mobile-view.jpg)   |
