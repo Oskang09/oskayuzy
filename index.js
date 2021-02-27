@@ -1,7 +1,7 @@
 const { dig } = require('digdata');
 const { create } = require('apisauce');
 const qs = require('query-string');
-const { GH_TOKEN = "3f20ca63a456fc0c2dcf1196847edf78b77ac75f" } = process.env;
+const { GH_TOKEN } = process.env;
 const { boy, girl, gallery, gist_id } = require('./src/assets/setting.json');
 const client = create({
     headers: {
