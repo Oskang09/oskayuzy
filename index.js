@@ -6,6 +6,7 @@ const { boy, girl, gallery, gist_id } = require('./src/assets/setting.json');
 const client = create({
     headers: {
         'Authorization': `token ${GH_TOKEN}`,
+        'User-Agent': 'https://i.instagram.com/api/v1/users/2217696854/info/',
     }
 });
 
@@ -35,11 +36,11 @@ async function request(method, path, data) {
 }
 
 async function main() {
-    const boyResponse = await request("GET", `https://www.instagram.com/web/search/topsearch/?context=user&query=${boy.instagram_name}&rank_token=0.7810395624&include_reel=true`);
-    const boyProfile = dig(boyResponse, `users.*.user.pk=${boy.instagram_id}.profile_pic_url`);
+    const boyResponse = await request("GET", `https://i.instagram.com/api/v1/users/${boy.instagram_id}/info/`);
+    const boyProfile = dig(boyResponse, `user.profile_pic_url`);
 
-    const girlResponse = await request("GET", `https://www.instagram.com/web/search/topsearch/?context=user&query=${girl.instagram_name}&rank_token=0.7810395624&include_reel=true`);
-    const girlProfile = dig(girlResponse, `users.*.user.pk=${girl.instagram_id}.profile_pic_url`);
+    const girlResponse = await request("GET", `https://i.instagram.com/api/v1/users/${girl.instagram_id}/info/`);
+    const girlProfile = dig(girlResponse, `user.profile_pic_url`);
 
     let nextCursor = undefined;
     let hasNext = false;
