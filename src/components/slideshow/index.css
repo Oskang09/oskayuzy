@@ -1,11 +1,11 @@
-#slideshow { 
+#slideshow-lion { 
     position: relative; 
     width: 100%; 
     height: 100%; 
     box-shadow: 0 0 20px rgba(0,0,0,0.4); 
 }
 
-#slideshow > div {
+#slideshow-lion > div {
     position: absolute; 
     top: 10px; 
     left: 10px; 
@@ -13,7 +13,29 @@
     bottom: 10px; 
 }
 
-#slideshow > div > img {
+#slideshow-lion > div > img {
     width: 100%; 
     height: 100%; 
+    object-fit: contain;
+}
+
+#slideshow-duck { 
+    position: relative; 
+    width: 100%; 
+    height: 100%; 
+    box-shadow: 0 0 20px rgba(0,0,0,0.4); 
+}
+
+#slideshow-duck > div {
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
+    right: 10px; 
+    bottom: 10px; 
+}
+
+#slideshow-duck > div > img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain;
 }

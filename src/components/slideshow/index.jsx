@@ -7,20 +7,20 @@ import PropTypes from 'prop-types';
 function Slideshow(props) {
 
     useEffect(() => {
-        $("#slideshow > div:gt(0)").hide();
+        $(`#slideshow-${props.id} > div:gt(0)`).hide();
         setInterval(function () {
-            $('#slideshow > div:first')
+            $(`#slideshow-${props.id} > div:first`)
                 .fadeOut(props.fadeInterval)
                 .next()
                 .fadeIn(props.fadeInterval)
                 .end()
-                .appendTo('#slideshow');
+                .appendTo(`#slideshow-${props.id}`);
         }, props.interval);
 
     }, []);
 
     return (
-        <div id="slideshow" style={props.style}>
+        <div id={`slideshow-${props.id}`} style={props.style}>
             {props.images.map((x, i) => (
                 <div key={i}>
                     <img src={x} />
@@ -31,6 +31,7 @@ function Slideshow(props) {
 }
 
 Slideshow.propTypes = {
+    id: PropTypes.string,
     interval: PropTypes.number,
     fadeInterval: PropTypes.number,
     images: PropTypes.array,

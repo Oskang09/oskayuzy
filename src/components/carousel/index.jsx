@@ -24,7 +24,7 @@ function OCarousel(props) {
         >
             {props.images.map((img, index) => (
                 <div id="carousel-image" key={index}>
-                    <img style={{ height: '100%' }} src={img} />
+                    <img style={{ height: '100%', objectFit: 'contain' }} src={img} />
                     <p className="legend">{props.legends[index]}</p>
                 </div>
             ))}

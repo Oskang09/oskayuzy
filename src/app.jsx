@@ -11,8 +11,26 @@ import Carousel from '#/components/carousel';
 import Activity from '#/components/activity';
 import { renderLoadable } from '#/components/loader';
 
-import OskaBackground from '#/assets/images/oska-bg.jpg';
-import YuzyBackground from '#/assets/images/yuzy-bg.jpg';
+import LoveBackground from '#/assets/images/love-bg.jpg';
+
+import SlideOne from '#/assets/images/couple/1.jpg';
+import SlideTwo from '#/assets/images/couple/2.jpg';
+import SlideThree from '#/assets/images/couple/3.jpg';
+import SlideFour from '#/assets/images/couple/4.jpg';
+import SlideFive from '#/assets/images/couple/5.jpg';
+import SlideSix from '#/assets/images/couple/6.jpg';
+
+import DuckOne from '#/assets/images/ducks/1.jpg';
+import DuckTwo from '#/assets/images/ducks/2.jpg';
+import DuckThree from '#/assets/images/ducks/3.jpg';
+import DuckFour from '#/assets/images/ducks/4.jpg';
+import DuckFive from '#/assets/images/ducks/5.jpg';
+
+import LionOne from '#/assets/images/lions/1.jpg';
+import LionTwo from '#/assets/images/lions/2.jpg';
+import LionThree from '#/assets/images/lions/3.jpg';
+import LionFour from '#/assets/images/lions/4.jpg';
+import LionFive from '#/assets/images/lions/5.jpg';
 
 import InstagramAPI from '#/api/instagram';
 
@@ -87,7 +105,7 @@ function Application() {
 
             <div style={TogetherContainer}>
                 <LoveEffect />
-                <img style={BackgroundBanner} src={OskaBackground} />
+                <img style={BackgroundBanner} src={LoveBackground} />
                 <div id="love-container">
                     <div style={{ flex: 1 }}>
                         {renderLoadable(!boyProfile, <img style={Avatar} src={boyProfile} />)}
@@ -108,21 +126,33 @@ function Application() {
             </div>
 
             <Carousel
-                images={[OskaBackground, YuzyBackground]}
+                images={[
+                    SlideOne,
+                    SlideTwo,
+                    SlideThree,
+                    SlideFour,
+                    SlideFive,
+                    SlideSix,
+                ]}
                 legends={[
-                    "Oska & Yuzy",
-                    "Duck Ducks"
+                    "Happy CNY",
+                    "Kukup Trip",
+                    "Dating Day",
+                    "Zenplus Day",
+                    "Yuzy's KL Trip",
+                    "Melaka Home Capture"
                 ]}
             />
 
             <div id="psyduck-container">
                 <div style={PsyduckDescription}>
-                    <h1>HeaderHeader</h1>
+                    <h1>Duck Duck Ducky</h1>
                     <p>some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description</p>
                     <Slideshow
+                        id="duck"
                         interval={3000}
                         fadeInterval={1000}
-                        images={[OskaBackground, YuzyBackground]}
+                        images={[DuckOne, DuckTwo, DuckThree, DuckFour, DuckFive]}
                     />
                 </div>
                 <div style={{ flex: 1 }}>
@@ -135,12 +165,13 @@ function Application() {
                     <Lion className="column" />
                 </div>
                 <div style={LionDescription}>
-                    <h1>HeaderHeader</h1>
+                    <h1>Lion</h1>
                     <p>some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description</p>
                     <Slideshow
+                        id="lion"
                         interval={3000}
                         fadeInterval={1000}
-                        images={[OskaBackground, YuzyBackground]}
+                        images={[LionOne, LionTwo, LionThree, LionFour, LionFive]}
                     />
                 </div>
             </div>
