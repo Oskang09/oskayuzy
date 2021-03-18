@@ -36,6 +36,7 @@ For github actions script have to build with `@vercel/ncc` before push, frontend
 | Slideshow        | https://css-tricks.com/snippets/jquery/simple-auto-playing-slideshow/ |
 | Heartbeat        | https://codepen.io/fivera/pen/rzepn                                   |
 | Loader           | https://loading.io/css/                                               |
+| Font             | GoogleFonts - Fredoka One                                             |
 
 # View
 
