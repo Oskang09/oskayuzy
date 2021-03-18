@@ -146,8 +146,12 @@ function Application() {
 
             <div id="psyduck-container">
                 <div style={PsyduckDescription}>
-                    <h1>Duck Duck Ducky</h1>
-                    <p>some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description</p>
+                    <h1>&#x1F986; Psyduck ( 鸭鸭 )</h1>
+                    <p>
+                        First present between us is a medium sized psyduck. At that moment girl is feel ugly about this duck and don't know what this belongs to.
+                        But as time passes, she like more the duck and now ducky family have become bigger around 5-6 duck and at all size.
+                        They have been together in our memories and our love journey.
+                    </p>
                     <Slideshow
                         id="duck"
                         interval={3000}
@@ -165,8 +169,13 @@ function Application() {
                     <Lion className="column" />
                 </div>
                 <div style={LionDescription}>
-                    <h1>Lion</h1>
-                    <p>some descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome descriptionsome description</p>
+                    <h1>&#x1F981; Lion ( 狮狮 )</h1>
+                    <p>
+                        Lion is her love dearly doll since it have been grow together with her from she's in kindergarten so there's many memory between she and it.
+                        After that lion having more friends ( duck duck ) and also it will together with us but due to it limited edition so we only having one and not more.
+                        But it will always be our side since it small and easy to bring out compare to duck duck.
+                        It also appearing at our memories and our love journey along the way.
+                    </p>
                     <Slideshow
                         id="lion"
                         interval={3000}
