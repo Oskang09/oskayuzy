@@ -37,9 +37,11 @@ async function request(method, path, data) {
 
 async function main() {
     const boyResponse = await request("GET", `https://i.instagram.com/api/v1/users/${boy.instagram_id}/info/`);
+    console.log("BoyResponse: " + JSON.stringify(girlResponse));
     const boyProfile = dig(boyResponse, `user.profile_pic_url`);
 
     const girlResponse = await request("GET", `https://i.instagram.com/api/v1/users/${girl.instagram_id}/info/`);
+    console.log("GirlResponse: " + JSON.stringify(girlResponse));
     const girlProfile = dig(girlResponse, `user.profile_pic_url`);
 
     let nextCursor = undefined;
@@ -53,6 +55,7 @@ async function main() {
             id: gallery.instagram_id,
             after: nextCursor,
         });
+        console.log("ImageList: " + JSON.stringify(girlResponse));
 
         nextCursor = dig(data, 'data.user.edge_owner_to_timeline_media.page_info.end_cursor');
         hasNext = dig(data, 'data.user.edge_owner_to_timeline_media.page_info.has_next_page');
