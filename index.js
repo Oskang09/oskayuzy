@@ -37,7 +37,7 @@ async function request(method, path, data) {
 
 async function main() {
     const boyResponse = await request("GET", `https://i.instagram.com/api/v1/users/${boy.instagram_id}/info/`);
-    console.log("BoyResponse: " + JSON.stringify(girlResponse));
+    console.log("BoyResponse: " + JSON.stringify(boyResponse));
     const boyProfile = dig(boyResponse, `user.profile_pic_url`);
 
     const girlResponse = await request("GET", `https://i.instagram.com/api/v1/users/${girl.instagram_id}/info/`);
