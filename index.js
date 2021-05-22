@@ -1,3 +1,4 @@
+const http = require('https');
 const { dig } = require('digdata');
 const { create } = require('apisauce');
 const qs = require('query-string');
@@ -35,19 +36,31 @@ async function request(method, path, data) {
     return response.data;
 }
 
+const toDataURL = async (originalURL) => {
+    return new Promise((resolve) => {
+        http.get(originalURL, function (response) {
+            response.setEncoding('base64');
+            let body = "data:" + response.headers["content-type"] + ";base64,";
+            response.on('data', (data) => { body += data });
+            response.on('end', () => resolve(body));
+        })
+    })
+}
+
 async function main() {
-    const boyResponse = await request("GET", `https://i.instagram.com/api/v1/users/${boy.instagram_id}/info/`);
+    const boyResponse = await request("GET", `https://www.instagram.com/${boy.instagram_name}/?__a=1`);
+    const boyProfile = dig(boyResponse, `graphql.user.profile_pic_url_hd`);
     console.log("BoyResponse: " + JSON.stringify(boyResponse));
-    const boyProfile = dig(boyResponse, `user.profile_pic_url`);
 
     const girlResponse = await request("GET", `https://i.instagram.com/api/v1/users/${girl.instagram_id}/info/`);
-    console.log("GirlResponse: " + JSON.stringify(girlResponse));
     const girlProfile = dig(girlResponse, `user.profile_pic_url`);
+    console.log("GirlResponse: " + JSON.stringify(girlResponse));
 
     let nextCursor = undefined;
     let hasNext = false;
     let numberOfPost = gallery.post_count;
     const posts = [];
+    const images = [];
     do {
         const data = await request("GET", "https://www.instagram.com/graphql/query", {
             first: 12,
@@ -55,43 +68,60 @@ async function main() {
             id: gallery.instagram_id,
             after: nextCursor,
         });
-        console.log("ImageList: " + JSON.stringify(girlResponse));
+        console.log("ImageList: " + JSON.stringify(data));
 
         nextCursor = dig(data, 'data.user.edge_owner_to_timeline_media.page_info.end_cursor');
         hasNext = dig(data, 'data.user.edge_owner_to_timeline_media.page_info.has_next_page');
 
         const media = dig(data, 'data.user.edge_owner_to_timeline_media.edges.*.node');
-        posts.push(...media.map(post => {
-            if (numberOfPost <= 0) {
-                return undefined;
-            }
-
-            const caption = dig(post, "edge_media_to_caption.edges.0.node.text");
-            const isCaptionHit = gallery.keywords.some(x => caption.includes(x));
-            if (isCaptionHit) {
-                numberOfPost--;
-                return {
-                    url: `https://instagram.com/p/${post.shortcode}`,
-                    timestamp: post.taken_at_timestamp,
-                    image: post.display_url,
-                    caption: caption,
+        posts.push(
+            ...await Promise.all(media.map(post => {
+                if (numberOfPost <= 0) {
+                    return undefined;
                 }
-            }
-            return undefined;
-        }));
+
+                const caption = dig(post, "edge_media_to_caption.edges.0.node.text");
+                const isCaptionHit = gallery.keywords.some(x => caption.includes(x));
+                if (isCaptionHit) {
+                    numberOfPost--;
+
+                    return new Promise(async (resolve) => {
+                        const imageData = await toDataURL(post.display_url)
+                        const index = images.length;
+                        images.push(imageData);
+                        resolve({
+                            url: `https://instagram.com/p/${post.shortcode}`,
+                            timestamp: post.taken_at_timestamp,
+                            image: `https://gist.githubusercontent.com/Oskang09/${gist_id}/raw/image-${index}.jpeg`,
+                            caption: caption,
+                        })
+                    })
+                }
+                return Promise.resolve(undefined);
+            }))
+        );
     } while (hasNext && numberOfPost > 0);
+
+    const objects = {};
+    for (i = 0; i < images.length; i++) {
+        objects['image-' + i + ".jpeg"] = {
+            content: images[i],
+            type: 'image/jpeg',
+        };
+    }
 
     await request(
         "PATCH", `https://api.github.com/gists/${gist_id}`,
         {
             files: {
+                ...objects,
                 ["oskayuzy.json"]: {
                     content: JSON.stringify({
                         boy_profile: boyProfile,
                         girl_profile: girlProfile,
                         posts: posts.filter(x => x),
                     })
-                }
+                },
             }
         }
     );

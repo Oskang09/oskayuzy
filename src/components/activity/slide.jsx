@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Slide({ slide, offset }) {
     const active = offset === 0 ? true : null;
+    const [image, setImage] = useState('');
+    useEffect(() => {
+        fetch(slide.image).then(res => res.text()).then(setImage)
+    }, [])
     return (
         <div
             className="slide"
@@ -15,7 +19,7 @@ export default function Slide({ slide, offset }) {
             <div
                 className="slideBackground"
                 style={{
-                    backgroundImage: `url('${slide.image}')`,
+                    backgroundImage: `url("${image}")`,
                     position: 'absolute'
                 }}
             />
@@ -23,7 +27,7 @@ export default function Slide({ slide, offset }) {
                 className="slideContent"
                 onClick={() => window.open(slide.url)}
                 style={{
-                    backgroundImage: `url('${slide.image}')`,
+                    backgroundImage: `url("${image}")`,
                     backgroundSize: 'contain',
                 }}
             >

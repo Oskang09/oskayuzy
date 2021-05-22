@@ -88,8 +88,8 @@ function Application() {
 
     const loadFromGist = async function load() {
         const { boy_profile, girl_profile, posts } = await InstagramAPI.getInstagramInfo();
-        setBoyProfile(boy_profile);
-        setGirlProfile(girl_profile);
+        setBoyProfile(boy_profile || "https://scontent.fmkz1-1.fna.fbcdn.net/v/t1.6435-1/p160x160/80012657_2650945078327171_3092297915348025344_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=7206a8&_nc_ohc=-if7RkpiNJkAX9vRgSr&_nc_ht=scontent.fmkz1-1.fna&tp=6&oh=56977eec209ceb404ebdb1d7a43629fe&oe=60CCDF8B");
+        setGirlProfile(girl_profile || "https://scontent.fmkz1-1.fna.fbcdn.net/v/t1.6435-9/157944202_1994184240732798_9212026485946204656_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Vrj1b11eOnQAX-9JcqZ&_nc_ht=scontent.fmkz1-1.fna&oh=a515713a9e8c5eba598b04b0de5a9538&oe=60CD25E1");
         setData(posts);
     };
 
