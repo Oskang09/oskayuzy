@@ -6,7 +6,7 @@ const { GH_TOKEN } = process.env;
 const { boy, girl, gallery, gist_id } = require('./src/assets/setting.json');
 const client = create({
     headers: {
-        'Authorization': `token ${GH_TOKEN}`,
+        'Authorization': `token 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`,
         'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)',
     }
 });
