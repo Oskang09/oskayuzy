@@ -48,12 +48,14 @@ const toDataURL = async (originalURL) => {
 }
 
 async function main() {
-    const boyResponse = await request("GET", `https://www.instagram.com/${boy.instagram_name}/?__a=1`);
-    const boyProfile = dig(boyResponse, `graphql.user.profile_pic_url_hd`);
+    const boyResponse = await request("GET", `https://i.instagram.com/api/v1/users/${boy.instagram_id}/info/`);
+    const boyProfile = dig(boyResponse, `user.profile_pic_url`);
+    const boyImage = await toDataURL(boyProfile);
     console.log("BoyResponse: " + JSON.stringify(boyResponse));
 
     const girlResponse = await request("GET", `https://i.instagram.com/api/v1/users/${girl.instagram_id}/info/`);
     const girlProfile = dig(girlResponse, `user.profile_pic_url`);
+    const girlImage = await toDataURL(girlProfile);
     console.log("GirlResponse: " + JSON.stringify(girlResponse));
 
     let nextCursor = undefined;
@@ -115,10 +117,18 @@ async function main() {
         {
             files: {
                 ...objects,
+                'boy.jpeg': {
+                    content: boyImage,
+                    type: 'image/jpeg'
+                },
+                'girl.jpeg': {
+                    content: girlImage,
+                    type: 'image/jpeg'
+                },
                 ["oskayuzy.json"]: {
                     content: JSON.stringify({
-                        boy_profile: boyProfile,
-                        girl_profile: girlProfile,
+                        boy_profile: `https://gist.githubusercontent.com/Oskang09/${gist_id}/raw/boy.jpeg`,
+                        girl_profile: `https://gist.githubusercontent.com/Oskang09/${gist_id}/raw/girl.jpeg`,
                         posts: posts.filter(x => x),
                     })
                 },
