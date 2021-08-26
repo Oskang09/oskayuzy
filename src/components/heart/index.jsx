@@ -11,7 +11,7 @@ const Container = {
 }
 
 function Heart() {
-    const date = new Date(start_date + "T00:00:00.000Z");
+    const date = new Date(start_date + "T00:00:00.000+08:00");
     const diff = Date.now() - date;
     const days = parseInt(diff / (24 * 3600 * 1000));
     return (
