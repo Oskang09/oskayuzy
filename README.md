@@ -20,7 +20,7 @@ For github actions script have to build with `@vercel/ncc` before push, frontend
 4. Update images with yours in `assets/images/` folder.
 5. Update repository name in `.github/workflows/schedule.yml`. 
 6. Add `GH_TOKEN` with your github token for updating `gist`.
-7. Add `IG_USERNAME` and `IG_PASSWORD` with your ig username and password for login instagram account.
+7. Add `IG_USERNAME` and `IG_PASSWORD` with your gallery ig username and password for login instagram account and retrieve posts.
 8. Push to repository.
 9. Trigger the actions to fetch data from instagram.
 10. Here you go.
