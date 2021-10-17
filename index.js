@@ -1,14 +1,11 @@
-const http = require('https');
-const { dig } = require('digdata');
+const { IgApiClient } = require('instagram-private-api');
 const { create } = require('apisauce');
 const qs = require('query-string');
-const { GH_TOKEN } = process.env;
+
+const { GH_TOKEN, IG_USERNAME, IG_PASSWORD } = process.env;
 const { boy, girl, gallery, gist_id } = require('./src/assets/setting.json');
 const client = create({
-    headers: {
-        'Authorization': `token ${GH_TOKEN}`,
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)',
-    }
+    headers: { 'Authorization': `token ${GH_TOKEN}` }
 });
 
 async function request(method, path, data) {
@@ -36,99 +33,49 @@ async function request(method, path, data) {
     return response.data;
 }
 
-const toDataURL = async (originalURL) => {
-    return new Promise((resolve) => {
-        http.get(originalURL, function (response) {
-            response.setEncoding('base64');
-            let body = "data:" + response.headers["content-type"] + ";base64,";
-            response.on('data', (data) => { body += data });
-            response.on('end', () => resolve(body));
-        })
-    })
-}
-
 async function main() {
-    const boyResponse = await request("GET", `https://i.instagram.com/api/v1/users/${boy.instagram_id}/info/`);
-    const boyProfile = dig(boyResponse, `user.profile_pic_url`);
-    const boyImage = await toDataURL(boyProfile);
-    console.log("BoyResponse: " + JSON.stringify(boyResponse));
+    const client = new IgApiClient();
+    client.state.generateDevice(boy.instagram_id + girl.instagram_id);
 
-    const girlResponse = await request("GET", `https://i.instagram.com/api/v1/users/${girl.instagram_id}/info/`);
-    const girlProfile = dig(girlResponse, `user.profile_pic_url`);
-    const girlImage = await toDataURL(girlProfile);
-    console.log("GirlResponse: " + JSON.stringify(girlResponse));
+    await client.simulate.preLoginFlow();
+    const user = await client.account.login(IG_USERNAME, IG_PASSWORD);
+    await client.simulate.postLoginFlow();
+    const feeds = await client.feed.user(user.pk);
 
-    let nextCursor = undefined;
-    let hasNext = false;
     let numberOfPost = gallery.post_count;
     const posts = [];
-    const images = [];
     do {
-        const data = await request("GET", "https://www.instagram.com/graphql/query", {
-            first: 12,
-            query_id: 17888483320059182,
-            id: gallery.instagram_id,
-            after: nextCursor,
-        });
-        console.log("ImageList: " + JSON.stringify(data));
+        const items = await feeds.items();
+        posts.push(...items.
+            filter(item => item.image_versions2).
+            filter(item => gallery.keywords.some(x => item.caption.text.includes(x))).
+            map(item => {
+                numberOfPost--;
 
-        nextCursor = dig(data, 'data.user.edge_owner_to_timeline_media.page_info.end_cursor');
-        hasNext = dig(data, 'data.user.edge_owner_to_timeline_media.page_info.has_next_page');
-
-        const media = dig(data, 'data.user.edge_owner_to_timeline_media.edges.*.node');
-        posts.push(
-            ...await Promise.all(media.map(post => {
-                if (numberOfPost <= 0) {
-                    return undefined;
+                return {
+                    url: `https://instagram.com/p/${item.code}`,
+                    timestamp: item.taken_at,
+                    image: item.image_versions2.candidates,
+                    caption: item.caption.text,
                 }
+            })
+        )
+    } while (numberOfPost > 0);
 
-                const caption = dig(post, "edge_media_to_caption.edges.0.node.text");
-                const isCaptionHit = gallery.keywords.some(x => caption.includes(x));
-                if (isCaptionHit) {
-                    numberOfPost--;
+    const boyAccount = await client.user.usernameinfo(boy.instagram_name)
+    const boyImage = boyAccount.profile_pic_url;
 
-                    return new Promise(async (resolve) => {
-                        const imageData = await toDataURL(post.display_url)
-                        const index = images.length;
-                        images.push(imageData);
-                        resolve({
-                            url: `https://instagram.com/p/${post.shortcode}`,
-                            timestamp: post.taken_at_timestamp,
-                            image: `https://gist.githubusercontent.com/Oskang09/${gist_id}/raw/image-${index}.jpeg`,
-                            caption: caption,
-                        })
-                    })
-                }
-                return Promise.resolve(undefined);
-            }))
-        );
-    } while (hasNext && numberOfPost > 0);
-
-    const objects = {};
-    for (i = 0; i < images.length; i++) {
-        objects['image-' + i + ".jpeg"] = {
-            content: images[i],
-            type: 'image/jpeg',
-        };
-    }
+    const girlAccount = await client.user.usernameinfo(girl.instagram_name);
+    const girlImage = girlAccount.profile_pic_url;
 
     await request(
         "PATCH", `https://api.github.com/gists/${gist_id}`,
         {
             files: {
-                ...objects,
-                'boy.jpeg': {
-                    content: boyImage,
-                    type: 'image/jpeg'
-                },
-                'girl.jpeg': {
-                    content: girlImage,
-                    type: 'image/jpeg'
-                },
                 ["oskayuzy.json"]: {
                     content: JSON.stringify({
-                        boy_profile: `https://gist.githubusercontent.com/Oskang09/${gist_id}/raw/boy.jpeg`,
-                        girl_profile: `https://gist.githubusercontent.com/Oskang09/${gist_id}/raw/girl.jpeg`,
+                        boy_profile: boyImage,
+                        girl_profile: girlImage,
                         posts: posts.filter(x => x),
                     })
                 },

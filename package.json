@@ -10,6 +10,7 @@
   "dependencies": {
     "apisauce": "^2.0.1",
     "digdata": "Oskang09/digdata#1.1.2",
+    "instagram-private-api": "^1.45.1",
     "jquery": "^3.5.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.14.0",
